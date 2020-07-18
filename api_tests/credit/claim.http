@@ -1,0 +1,8 @@
+
+
+PUT http://localhost:4000/api/credit/5b0550c5-5104-44c2-9660-b144b9826e5e
+content-type: application/json
+
+{
+  "action":"claim"
+}

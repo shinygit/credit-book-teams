@@ -1,0 +1,11 @@
+
+POST http://localhost:4000/api/credit/create
+Cookie: next-auth.session-token=ckcql1gll00017ugu4dfkq9lv
+content-type: application/json
+
+{
+    "teamId" : "b5f7e4b6-6329-4131-a082-868ce47248a6",
+    "name":"bobby",
+    "phone": "19191661",
+    "reason": "bad stuff yo"
+}
