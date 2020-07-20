@@ -1,0 +1,9 @@
+
+
+POST http://localhost:4000/api/teams
+Cookie: next-auth.session-token=ckcujejon00167aguiyq75dqg
+content-type: application/json
+
+{
+    "teamName":"Chessy3"
+}

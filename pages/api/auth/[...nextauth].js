@@ -14,23 +14,16 @@ const options = {
   ],
   adapter: Adapters.Prisma.Adapter({ prisma }),
   // A database is optional, but required to persist accounts in a database
-  /*   callbacks: {
-    session: async (session, token) => {
-      const userId = await prisma.sessions.findOne({
-        where: { access_token: session.accessToken },
+  callbacks: {
+    session: async (session) => {
+      const userId = await prisma.session.findOne({
+        where: { accessToken: session.accessToken },
       })
-      session.userId = userId.user_id
+      session.userId = userId.userId
       return session
     },
-  }, */
-  /*   database: {
-    type: 'postgres',
-    host: process.env.DATABASE_HOST_NEXT_AUTH,
-    port: process.env.DATABASE_PORT_NEXT_AUTH,
-    username: process.env.DATABASE_USERNAME_NEXT_AUTH,
-    password: process.env.DATABASE_PASSWORD_NEXT_AUTH,
-    database: process.env.DATABASE_DATABASE_NEXT_AUTH,
-  } */
+  },
+
   secret: process.env.SECRET,
 }
 

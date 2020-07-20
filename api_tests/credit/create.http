@@ -1,6 +1,6 @@
 
-POST http://localhost:4000/api/credit/create
-Cookie: next-auth.session-token=ckcql1gll00017ugu4dfkq9lv
+POST http://localhost:4000/api/credits
+Cookie: next-auth.session-token=ckcujejon00167aguiyq75dqg
 content-type: application/json
 
 {

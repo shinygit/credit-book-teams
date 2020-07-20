@@ -7,6 +7,7 @@ const handler = async (req, res) => {
     const userId = await getUserIdFromReq(req, res)
     if (!userId) return res.end()
     if (req.method === 'POST') {
+      console.log('hmm index2')
       const belongsToTeam = await belongsToTeamAs(userId, req.query.teamid)
       if (!belongsToTeamAs)
         res.json({ error: 'You do not belong to this team.' })

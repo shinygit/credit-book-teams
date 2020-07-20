@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model Session {
@@ -61,9 +61,8 @@ model User {
 
 model Team {
   id                 String     @default(uuid()) @id
-  joinCode           String?    @unique
+  joinCode           String?
   joinCodeExpiration DateTime?
-  joinAttempts       Int?
   teamName           String
   credits            Credit[]
   users              UserTeam[]

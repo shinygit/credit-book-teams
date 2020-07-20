@@ -1,11 +1,11 @@
-import getUserIdFromReq from '../../../utils/getUserIdFromReq'
-import belongsToTeamAs from '../../../utils/authorization/belongsToTeamAs'
+import addUserToReq from '../../../middleware/addUserIdToReq'
+
 import prisma from '../../../prisma/prisma'
 
 const handler = async (req, res) => {
   try {
-    const userId = await getUserIdFromReq(req, res)
-    if (!userId) return res.end()
+    await addUserToReq(req)
+    console.log(req.userId)
     if (req.method === 'POST') {
     }
   } catch (e) {
