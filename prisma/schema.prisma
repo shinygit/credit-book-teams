@@ -56,6 +56,7 @@ model User {
   teams          UserTeam[]
   claimedCredits Credit[]   @relation("ClaimedCredits")
   createdCredits Credit[]   @relation("CreatedCredits")
+  updatedCredits Credit[]   @relation("UpdatedCredits")
 
 }
 
@@ -81,19 +82,22 @@ model UserTeam {
 }
 
 model Credit {
-  claimedAt   DateTime?
-  claimedById String?
-  claimedBy   User?     @relation("ClaimedCredits", fields: [claimedById], references: [id])
-  createdAt   DateTime  @default(now())
-  createdById String?
-  createdBy   User?     @relation("CreatedCredits", fields: [createdById], references: [id])
-  dollarValue Int?
-  itemValue   String?
-  id          String    @default(uuid()) @id
-  name        String?
-  phone       String?
-  reason      String?
-  teamId      String
-  team        Team      @relation(fields: [teamId], references: [id])
+  id            String    @default(uuid()) @id
+  createdAt     DateTime  @default(now())
+  createdById   String?
+  createdBy     User?     @relation("CreatedCredits", fields: [createdById], references: [id])
+  claimedAt     DateTime?
+  claimedById   String?
+  claimedBy     User?     @relation("ClaimedCredits", fields: [claimedById], references: [id])
+  updatedAt     DateTime?
+  updatedById   String?
+  updatedBy     User?     @relation("UpdatedCredits", fields: [updatedById], references: [id])
+  dollarValue   Int?
+  itemValue     String?
+  name          String?
+  phone         String?
+  reason        String?
+  teamId        String
+  team          Team      @relation(fields: [teamId], references: [id])
 
 }

@@ -12,6 +12,7 @@ const options = {
     }),
     // ...add more providers here
   ],
+  secret: process.env.SECRET,
   adapter: Adapters.Prisma.Adapter({ prisma }),
   // A database is optional, but required to persist accounts in a database
   callbacks: {

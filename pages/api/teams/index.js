@@ -3,7 +3,7 @@ import prisma from '../../../prisma/prisma'
 const handler = async (req, res) => {
   try {
     await addUserIdToReq(req)
-    if (!req.userId) return res.end()
+    if (!req.userId) return res.status(401).json({ error: 'Not logged in' })
     if (req.method === 'POST') {
       const teamNameAlreadyExistsForUser = await prisma.team.findMany({
         where: {

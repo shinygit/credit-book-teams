@@ -945,6 +945,38 @@
       "value": "\"CreatedCredits\""
     },
     {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "updatedCredits",
+      "type": "Credit",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "updatedCredits"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "updatedCredits"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"UpdatedCredits\""
+    },
+    {
       "tag": "CreateModel",
       "model": "Team"
     },
@@ -999,10 +1031,28 @@
       "arity": "Optional"
     },
     {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Team",
+          "field": "joinCode"
+        },
+        "directive": "unique"
+      }
+    },
+    {
       "tag": "CreateField",
       "model": "Team",
       "field": "joinCodeExpiration",
       "type": "DateTime",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Team",
+      "field": "joinAttempts",
+      "type": "Int",
       "arity": "Optional"
     },
     {
@@ -1173,23 +1223,9 @@
     {
       "tag": "CreateField",
       "model": "Credit",
-      "field": "claimedAt",
-      "type": "DateTime",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Credit",
-      "field": "claimedById",
+      "field": "id",
       "type": "String",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Credit",
-      "field": "claimedBy",
-      "type": "User",
-      "arity": "Optional"
+      "arity": "Required"
     },
     {
       "tag": "CreateDirective",
@@ -1197,9 +1233,9 @@
         "path": {
           "tag": "Field",
           "model": "Credit",
-          "field": "claimedBy"
+          "field": "id"
         },
-        "directive": "relation"
+        "directive": "default"
       }
     },
     {
@@ -1209,40 +1245,23 @@
         "path": {
           "tag": "Field",
           "model": "Credit",
-          "field": "claimedBy"
+          "field": "id"
         },
-        "directive": "relation"
+        "directive": "default"
       },
       "argument": "",
-      "value": "\"ClaimedCredits\""
+      "value": "uuid()"
     },
     {
-      "tag": "CreateArgument",
+      "tag": "CreateDirective",
       "location": {
-        "tag": "Directive",
         "path": {
           "tag": "Field",
           "model": "Credit",
-          "field": "claimedBy"
+          "field": "id"
         },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[claimedById]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Credit",
-          "field": "claimedBy"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[id]"
+        "directive": "id"
+      }
     },
     {
       "tag": "CreateField",
@@ -1346,6 +1365,154 @@
     {
       "tag": "CreateField",
       "model": "Credit",
+      "field": "claimedAt",
+      "type": "DateTime",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Credit",
+      "field": "claimedById",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Credit",
+      "field": "claimedBy",
+      "type": "User",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Credit",
+          "field": "claimedBy"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Credit",
+          "field": "claimedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"ClaimedCredits\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Credit",
+          "field": "claimedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[claimedById]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Credit",
+          "field": "claimedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Credit",
+      "field": "updatedAt",
+      "type": "DateTime",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Credit",
+      "field": "updatedById",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Credit",
+      "field": "updatedBy",
+      "type": "User",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Credit",
+          "field": "updatedBy"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Credit",
+          "field": "updatedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"UpdatedCredits\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Credit",
+          "field": "updatedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[createdById]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Credit",
+          "field": "updatedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Credit",
       "field": "dollarValue",
       "type": "Int",
       "arity": "Optional"
@@ -1356,49 +1523,6 @@
       "field": "itemValue",
       "type": "String",
       "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Credit",
-      "field": "id",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Credit",
-          "field": "id"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Credit",
-          "field": "id"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "uuid()"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Credit",
-          "field": "id"
-        },
-        "directive": "id"
-      }
     },
     {
       "tag": "CreateField",

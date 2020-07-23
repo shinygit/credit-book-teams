@@ -1,12 +1,10 @@
-//create join code
-//delete join code
 import crypto from 'crypto'
 import { addUserIdToReq } from '../../../../../middleware/addUserIdToReq'
 import prisma from '../../../../../prisma/prisma'
 const handler = async (req, res) => {
   try {
     await addUserIdToReq(req)
-    if (!req.userId) return res.end()
+    if (!req.userId) return res.status(401).json({ error: 'Not logged in' })
     if (req.method === 'POST') {
       const team = await prisma.userTeam.findOne({
         where: {
