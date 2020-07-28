@@ -17,7 +17,6 @@ const handler = async (req, res) => {
         },
         include: { createdBy: { select: { name: true } } },
       })
-      console.log(credits)
       return res.json(credits)
     }
   } catch (e) {

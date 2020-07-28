@@ -1,8 +1,6 @@
 import '../styles/index.css'
-
 import Head from 'next/head'
 import { Provider } from 'next-auth/client'
-
 import { SWRConfig } from 'swr'
 import NavBar from '../components/navbar/NavBar'
 
@@ -15,7 +13,7 @@ function MyApp({ Component, pageProps }) {
           fetcher: (...args) => fetch(...args).then((res) => res.json()),
         }}
       >
-        <div>
+        <div className='text-lg'>
           <Head>
             <title>Credit Book</title>
             <link rel='icon' href='/favicon.ico' />

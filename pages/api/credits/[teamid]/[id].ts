@@ -1,8 +1,8 @@
 import { addUserIdToReq } from '../../../../middleware/addUserIdToReq'
 import { NextApiRequestWithUser } from '../../../../middleware/addUserIdToReq.d.ts'
+import { NextApiResponse } from 'next'
 import prisma from '../../../../prisma/prisma'
 import { belongsToTeamAs } from '../../../../utils/authorization/belongsToTeamAs'
-import { NextApiResponse } from 'next'
 
 type ReturnedCredit = {
   claimedAt: Date | null

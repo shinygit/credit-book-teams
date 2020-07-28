@@ -91,7 +91,7 @@ model Credit {
   claimedBy     User?     @relation("ClaimedCredits", fields: [claimedById], references: [id])
   updatedAt     DateTime?
   updatedById   String?
-  updatedBy     User?     @relation("UpdatedCredits", fields: [createdById], references: [id])
+  updatedBy     User?     @relation("UpdatedCredits", fields: [updatedById], references: [id])
   dollarValue   Int?
   itemValue     String?
   name          String?

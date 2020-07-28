@@ -1,24 +1,48 @@
 import { addUserIdToReq } from '../../../middleware/addUserIdToReq'
 import prisma from '../../../prisma/prisma'
-const handler = async (req, res) => {
+
+import { NextApiRequestWithUser } from '../../../middleware/addUserIdToReq.d.ts'
+import { NextApiResponse } from 'next'
+
+const handler = async (req: NextApiRequestWithUser, res: NextApiResponse) => {
   try {
     await addUserIdToReq(req)
     if (!req.userId) return res.status(401).json({ error: 'Not logged in' })
     if (req.method === 'POST') {
-      const teamNameAlreadyExistsForUser = await prisma.team.findMany({
+      if (!req.body.teamName) {
+        return res.status(400).json({ error: 'Why is the name empty?' })
+      }
+      if (req.body.teamName.length < 10) {
+        return res
+          .status(400)
+          .json({ error: 'Team name must be at least 10 characters long' })
+      }
+      const existingTeamsForUser = await prisma.team.findMany({
         where: {
-          teamName: req.body.teamName,
           users: { some: { userId: req.userId } },
         },
       })
-      if (teamNameAlreadyExistsForUser.length > 0) {
+
+      const teamNameAlreadyExistsForUser = existingTeamsForUser.find((team) => {
+        if (
+          team.teamName
+            .trim()
+            .localeCompare(req.body.teamName.trim(), undefined, {
+              sensitivity: 'base',
+              ignorePunctuation: true,
+            }) === 0
+        )
+          return true
+      })
+
+      if (teamNameAlreadyExistsForUser) {
         return res.status(409).json({ error: 'Team name already exists.' })
       }
 
       const userTeam = await prisma.userTeam.create({
         data: {
           role: 'ADMIN',
-          team: { create: { teamName: req.body.teamName } },
+          team: { create: { teamName: req.body.teamName.trim() } },
           user: { connect: { id: req.userId } },
         },
         select: {

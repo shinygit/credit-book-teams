@@ -1494,7 +1494,7 @@
         "directive": "relation"
       },
       "argument": "fields",
-      "value": "[createdById]"
+      "value": "[updatedById]"
     },
     {
       "tag": "CreateArgument",
