@@ -1,0 +1,7 @@
+POST http://localhost:4000/api/credits/82a5f367-8ae5-4f89-91e0-528c0fb9d3fd/search
+Cookie: next-auth.session-token=b9e8ccac26e7738502b3678b4de4b6406cc9ab2f01baf4be878551cb85ea3aa6
+content-type: application/json
+
+{
+"searchTerm": "gr"
+}

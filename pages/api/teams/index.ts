@@ -58,7 +58,17 @@ const handler = async (req: NextApiRequestWithUser, res: NextApiResponse) => {
           users: { some: { userId: req.userId } },
         },
       })
-      return res.json(teams)
+      const user = await prisma.user.findOne({
+        where: { id: req.userId },
+      })
+      const teamsWithDefault = teams.map((team) => {
+        if (team.id === user.defaultTeamId) {
+          return { ...team, isDefaultTeam: true }
+        }
+        return { ...team, isDefaultTeam: false }
+      })
+
+      return res.json(teamsWithDefault)
     }
   } catch (e) {
     console.log(e)

@@ -3,6 +3,12 @@
 @tailwind base;
 
 @tailwind components;
+.btn {
+  @apply border rounded px-4 font-bold;
+}
+.btn-white {
+  @apply bg-white border-black;
+}
 
 /* purgecss end ignore */
 

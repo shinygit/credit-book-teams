@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form'
 import { createCredit } from '../../../api/mutations'
 import { mutate } from 'swr'
 import { useState } from 'react'
+import { Button } from '@chakra-ui/core'
 import Modal from 'react-modal'
 const AddCredit = ({ teamId }) => {
   Modal.setAppElement('#__next')
@@ -12,7 +13,6 @@ const AddCredit = ({ teamId }) => {
     if (newCredit.error) setError({ type: 'manual', message: newTeam.error })
     if (newCredit.id) mutate(`/api/credits/${teamId}/unclaimed`)
   }
-  console.log(errors)
   const [modalIsOpen, setIsOpen] = useState(false)
   function openModal() {
     setIsOpen(true)
@@ -23,7 +23,14 @@ const AddCredit = ({ teamId }) => {
 
   return (
     <div>
-      <button onClick={openModal}>Add Credit</button>
+      <Button
+        variant='outline'
+        bg='White'
+        colorScheme='Black'
+        onClick={openModal}
+      >
+        Add Credit
+      </Button>
       <Modal isOpen={modalIsOpen} contentLabel='Add Item Modal'>
         <form className='flex flex-col' onSubmit={handleSubmit(onSubmit)}>
           <label>

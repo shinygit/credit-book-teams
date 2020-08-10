@@ -1,11 +1,11 @@
 
-POST http://localhost:4000/api/credits
-Cookie: next-auth.session-token=ckcujejon00167aguiyq75dqg
+POST http://localhost:4000/api/credits/82a5f367-8ae5-4f89-91e0-528c0fb9d3fd
+Cookie: next-auth.session-token=b9e8ccac26e7738502b3678b4de4b6406cc9ab2f01baf4be878551cb85ea3aa6
 content-type: application/json
 
 {
-    "teamId" : "b5f7e4b6-6329-4131-a082-868ce47248a6",
-    "name":"bobby",
-    "phone": "19191661",
-    "reason": "bad stuff yo"
+    "name":"chuck burns",
+    "phone": "181161659",
+    "reason": "bad stuff yo",
+    "dollarValue": 20
 }

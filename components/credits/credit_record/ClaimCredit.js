@@ -13,7 +13,11 @@ const ClaimCredit = ({ credit }) => {
       async (cachedCredits) => {
         return cachedCredits.map((cachedCredit) =>
           cachedCredit.id === credit.id
-            ? { ...cachedCredit, claimedAt: claimedCredit.claimedAt }
+            ? {
+                ...cachedCredit,
+                claimedAt: claimedCredit.claimedAt,
+                claimedBy: { name: claimedCredit.claimedBy?.name },
+              }
             : cachedCredit
         )
       },

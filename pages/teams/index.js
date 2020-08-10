@@ -1,18 +1,42 @@
 import useSWR, { mutate } from 'swr'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import { createTeam } from '../../api/mutations'
+import { createTeam, setDefaultTeam } from '../../api/mutations'
+import JoinTeamForm from '../../components/teams/JoinTeamForm'
+import NewTeamForm from '../../components/teams/NewTeamForm'
+
+import { Checkbox } from '@chakra-ui/core'
 
 export default function TeamPage() {
   const { data: teamsList, error } = useSWR('/api/teams')
-  const { register, handleSubmit, setError, errors, clearErrors } = useForm()
+  const {
+    register,
+    handleSubmit,
+    setError,
+    errors,
+    clearErrors,
+    reset,
+  } = useForm()
   const onSubmit = async (data) => {
     const newTeam = await createTeam(data)
     if (newTeam.error)
       setError('teamName', { type: 'manual', message: newTeam.error })
-    if (newTeam.teamName) mutate('/api/teams')
+    if (newTeam.teamName) {
+      reset()
+      mutate('/api/teams')
+    }
   }
+
+  const handleCheckBoxClick = async (teamId) => {
+    const newDefaultTeam = await setDefaultTeam(teamId)
+
+    if (newDefaultTeam.id) {
+      mutate('/api/teams')
+    }
+  }
+
   if (!teamsList) return <div>loading...</div>
+
   return (
     <div>
       <div>
@@ -23,32 +47,23 @@ export default function TeamPage() {
             <p>Current teams:</p>
             {teamsList.map((team) => {
               return (
-                <Link href='/teams/[teamid]' as={`/teams/${team.id}`}>
-                  {team.teamName}
-                </Link>
+                <div key={team.id}>
+                  <Link href='/teams/[teamid]' as={`/teams/${team.id}`}>
+                    <a>{team.teamName}</a>
+                  </Link>
+                  <Checkbox
+                    onChange={(e) => handleCheckBoxClick(team.id)}
+                    size='lg'
+                    isChecked={team.isDefaultTeam}
+                  />
+                </div>
               )
             })}
           </>
         )}
       </div>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label> New team name:</label>
-        <input
-          type='text'
-          placeholder='Best team name ever...'
-          name='teamName'
-          ref={register({
-            required: { value: true, message: 'A team must have a name.' },
-            minLength: {
-              value: 5,
-              message: 'A team name must be at least 5 characters long.',
-            },
-          })}
-        />
-        {errors.teamName && <p>{errors.teamName.message}</p>}
-        <input type='submit' />
-      </form>
+      <NewTeamForm />
+      <JoinTeamForm />
     </div>
   )
 }

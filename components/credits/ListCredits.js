@@ -1,7 +1,7 @@
-import CreditRecord from './credit_record'
+import CreditDetails from './credit_record/CreditDetails'
 const ListCredits = ({ credits = [] }) => {
   return credits.map((credit) => (
-    <CreditRecord credit={credit} key={credit.id} />
+    <CreditDetails credit={credit} key={credit.id} />
   ))
 }
 export default ListCredits

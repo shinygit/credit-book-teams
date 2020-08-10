@@ -1,5 +1,3 @@
-//use a join code
-
 import { addUserIdToReq } from '../../../middleware/addUserIdToReq'
 import prisma from '../../../prisma/prisma'
 const handler = async (req, res) => {
@@ -13,16 +11,14 @@ const handler = async (req, res) => {
           joinCode: { not: null },
         },
       })
-      if (!teamMatch[0]) return res.status(403).json({ error: 'No Match.1' })
+      if (!teamMatch[0]) return res.status(403).json({ error: 'No Match!' })
 
       const expiration = new Date(teamMatch[0].joinCodeExpiration)
       const now = new Date()
       if (expiration < now)
-        return res.status(403).json({ error: 'No Match.1.5' })
-
+        return res.status(403).json({ error: 'Code is expired!' })
       if (teamMatch[0].joinAttempts > 5)
-        return res.status(403).json({ error: 'No Match.2' })
-
+        return res.status(403).json({ error: 'Too Many Attempts' })
       if (teamMatch) {
         await prisma.team.updateMany({
           data: { joinAttempts: teamMatch[0].joinAttempts + 1 },
@@ -34,17 +30,17 @@ const handler = async (req, res) => {
         where: { teamName: req.body.teamName, joinCode: req.body.joinCode },
       })
       if (teamMatchingCode.length < 1)
-        return res.status(403).json({ error: 'No match.3' })
+        return res.status(403).json({ error: 'No Match!' })
 
       const isAlreadyMember = await prisma.userTeam.findOne({
         where: {
           teamId_userId: {
-            userId: teamMatchingCode[0].id,
-            teamId: req.userId,
+            userId: req.userId,
+            teamId: teamMatchingCode[0].id,
           },
         },
       })
-      if (!isAlreadyMember)
+      if (isAlreadyMember)
         return res.status(409).json({ error: 'You are already a member.' })
 
       const newJoin = await prisma.userTeam.create({
@@ -57,6 +53,18 @@ const handler = async (req, res) => {
           team: true,
         },
       })
+
+      const teamWithClearedJoinCode = await prisma.team.update({
+        where: {
+          id: teamMatchingCode[0].id,
+        },
+        data: {
+          joinCode: null,
+          joinCodeExpiration: null,
+          joinAttempts: null,
+        },
+      })
+
       res.json(newJoin.team)
     }
   } catch (e) {

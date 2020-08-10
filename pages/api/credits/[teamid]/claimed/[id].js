@@ -18,12 +18,16 @@ const handler = async (req, res) => {
     if (req.method === 'PUT') {
       if (foundCredit.claimedById)
         return res.json({ error: 'This credit has already been claimed.' })
-
       const credit = await prisma.credit.update({
         where: { id: req.query.id },
         data: {
           claimedBy: { connect: { id: req.userId } },
           claimedAt: new Date().toISOString(),
+        },
+        include: {
+          claimedBy: { select: { name: true } },
+          createdBy: { select: { name: true } },
+          updatedBy: { select: { name: true } },
         },
       })
       return res.json(credit)

@@ -1,0 +1,7 @@
+PUT http://localhost:4000/api/credits/c7a027a1-7da3-4dbf-846c-20b583780f77/d2c7c211-2847-4a4b-a15c-926072e457d0
+Cookie: next-auth.session-token=ckcysectq0000s6guof063jxa
+content-type: application/json
+
+{
+  "dollarValue": 300
+}

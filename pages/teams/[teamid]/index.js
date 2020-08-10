@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
-import ListCredits from '../../../components/credits/ListCredits'
+import Credits from '../../../components/credits/'
 import AddCredit from '../../../components/credits/add_credit'
+import NextLink from 'next/link'
+import { Flex, Link, Button } from '@chakra-ui/core'
 
 const TeamPage = () => {
   const router = useRouter()
@@ -9,16 +12,23 @@ const TeamPage = () => {
   const { data: teamData, error: teamError } = useSWR(
     teamid ? `/api/teams/${teamid}` : null
   )
-  const { data: creditsData, error: creditsError } = useSWR(
-    teamid ? `/api/credits/${teamid}/unclaimed` : null
-  )
+
   if (!teamData) return <div>loading...</div>
   return (
-    <div>
-      Team: {teamData.teamName}
-      <AddCredit teamId={teamid} />
-      <ListCredits credits={creditsData} />
-    </div>
+    <Flex flexDirection='column'>
+      <Flex mb={2} justify='space-between'>
+        <Button variant='outline' bg='white' colorScheme='white'>
+          <NextLink
+            href='/teams/[teamid]/members'
+            as={`/teams/${teamid}/members`}
+          >
+            <a>Manage Members</a>
+          </NextLink>
+        </Button>
+        <AddCredit teamId={teamid} />
+      </Flex>
+      <Credits teamid={teamid} />
+    </Flex>
   )
 }
 export default TeamPage

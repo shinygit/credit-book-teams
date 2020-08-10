@@ -1,7 +1,7 @@
 
 
 POST http://localhost:4000/api/teams
-Cookie: next-auth.session-token=ckcujejon00167aguiyq75dqg
+Cookie: next-auth.session-token=ckcysectq0000s6guof063jxa
 content-type: application/json
 
 {
