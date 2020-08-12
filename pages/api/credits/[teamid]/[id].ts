@@ -82,7 +82,7 @@ const handler = async (
   } catch (e) {
     console.log(e)
   } finally {
-    await prisma.disconnect()
+    await prisma.$disconnect()
   }
 }
 export default handler
