@@ -18,6 +18,9 @@ const handler = async (req, res) => {
         const searchDate = new Date(match[0])
         const searchDateEnd = dayjs(searchDate).add(1, 'day').toDate()
         const foundCredits = await prisma.credit.findMany({
+          orderBy: {
+            createdAt: 'desc',
+          },
           where: {
             teamId: req.query.teamId,
             createdAt: {
@@ -36,6 +39,9 @@ const handler = async (req, res) => {
       }
       if (req.body.searchTerm) {
         const foundCredits = await prisma.credit.findMany({
+          orderBy: {
+            createdAt: 'desc',
+          },
           where: {
             teamId: req.query.teamId,
             ...(!req.body.claimed && { claimedAt: { equals: null } }),
@@ -45,6 +51,8 @@ const handler = async (req, res) => {
             createdBy: { select: { name: true } },
           },
         })
+        if (req.body.searchTerm === '') return res.json(foundCredits)
+
         const fuse = new Fuse(foundCredits, {
           keys: ['name', 'phone'],
         })
@@ -56,11 +64,27 @@ const handler = async (req, res) => {
         }, [])
         return res.json(responseResults)
       }
+      if (req.body) {
+        const foundCredits = await prisma.credit.findMany({
+          orderBy: {
+            createdAt: 'desc',
+          },
+          where: {
+            teamId: req.query.teamId,
+            ...(!req.body.claimed && { claimedAt: { equals: null } }),
+          },
+          include: {
+            claimedBy: { select: { name: true } },
+            createdBy: { select: { name: true } },
+          },
+        })
+        return res.json(foundCredits)
+      }
     }
   } catch (e) {
     console.log(e)
   } finally {
-    await prisma.disconnect()
+    await prisma.$disconnect()
   }
 }
 export default handler
