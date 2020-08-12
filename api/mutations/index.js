@@ -5,6 +5,7 @@ import setDefaultTeam from './setDefaultTeam'
 import createJoinCode from './createJoinCode'
 import joinTeam from './joinTeam'
 import searchCredits from './searchCredits'
+import setRole from './setRole'
 
 export {
   createTeam,
@@ -14,4 +15,5 @@ export {
   createJoinCode,
   joinTeam,
   searchCredits,
+  setRole,
 }
