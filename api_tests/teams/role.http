@@ -1,0 +1,6 @@
+PUT http://localhost:4000/api/teams/8a64a0bb-2caf-4e9b-918c-4b2ae57af6fc/role
+Cookie: next-auth.session-token=7ba73c96475e975d4e0a7794a3c2e1232ba22551036e46bed1ed85a16e6d026b
+content-type: application/json
+
+{"userId": 2,
+"role": "SHARED"}

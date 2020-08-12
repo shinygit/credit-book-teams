@@ -41,7 +41,7 @@ const handler = async (req: NextApiRequestWithUser, res: NextApiResponse) => {
 
       const userTeam = await prisma.userTeam.create({
         data: {
-          role: 'ADMIN',
+          role: 'OWNER',
           team: { create: { teamName: req.body.teamName.trim() } },
           user: { connect: { id: req.userId } },
         },
@@ -73,7 +73,7 @@ const handler = async (req: NextApiRequestWithUser, res: NextApiResponse) => {
   } catch (e) {
     console.log(e)
   } finally {
-    await prisma.disconnect()
+    await prisma.$disconnect()
   }
 }
 export default handler

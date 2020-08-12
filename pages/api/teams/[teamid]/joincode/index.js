@@ -15,7 +15,7 @@ const handler = async (req, res) => {
         },
         include: { team: true },
       })
-      if (!team.role === 'ADMIN') {
+      if (!team.role === 'OWNER') {
         return res.status(403).json({ error: 'You do not own this team' })
       }
 
@@ -46,7 +46,7 @@ const handler = async (req, res) => {
         },
         include: { team: true },
       })
-      if (!team.role === 'ADMIN') {
+      if (!team.role === 'OWNER') {
         return res.status(403).json({ error: 'You do not own this team' })
       }
 
@@ -66,7 +66,7 @@ const handler = async (req, res) => {
   } catch (e) {
     console.log(e)
   } finally {
-    await prisma.disconnect()
+    await prisma.$disconnect()
   }
 }
 export default handler
