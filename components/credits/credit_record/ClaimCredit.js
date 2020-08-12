@@ -1,4 +1,4 @@
-import { mutate } from 'swr'
+import { mutate, cache } from 'swr'
 import { useRouter } from 'next/router'
 import { claimCredit } from '../../../api/mutations'
 
@@ -8,22 +8,28 @@ const ClaimCredit = ({ credit }) => {
 
   const handleClick = async () => {
     const claimedCredit = await claimCredit(teamid, credit.id)
-    mutate(
-      `/api/credits/${teamid}/unclaimed`,
-      async (cachedCredits) => {
-        return cachedCredits.map((cachedCredit) =>
-          cachedCredit.id === credit.id
-            ? {
-                ...cachedCredit,
-                claimedAt: claimedCredit.claimedAt,
-                claimedBy: { name: claimedCredit.claimedBy?.name },
-              }
-            : cachedCredit
+    cache
+      .keys()
+      .filter((key) => key.startsWith(`arg@"/api/credits/${teamid}/search`))
+      .forEach((key) => {
+        mutate(
+          key,
+          (cachedCredits) => {
+            return cachedCredits.map((cachedCredit) =>
+              cachedCredit.id === credit.id
+                ? {
+                    ...cachedCredit,
+                    claimedAt: claimedCredit.claimedAt,
+                    claimedBy: { name: claimedCredit.claimedBy?.name },
+                  }
+                : cachedCredit
+            )
+          },
+          false
         )
-      },
-      false
-    )
+      })
   }
+
   if (credit.claimedAt)
     return (
       <svg
