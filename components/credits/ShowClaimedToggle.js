@@ -17,7 +17,7 @@ const ShowClaimedToggle = ({ searchCreditsQuery, setSearchCreditsQuery }) => {
         }`}
       >
         <label
-          for='toggle'
+          htmlFor='toggle'
           className={`absolute left-0 bg-white border border-black w-1/2 h-full transition transform duration-200 ease-linear rounded ${
             searchCreditsQuery.claimed ? 'translate-x-full' : 'translate-x-0'
           }`}
