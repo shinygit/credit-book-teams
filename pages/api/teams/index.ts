@@ -1,7 +1,7 @@
 import { addUserIdToReq } from '../../../middleware/addUserIdToReq'
 import prisma from '../../../prisma/prisma'
 
-import { NextApiRequestWithUser } from '../../../middleware/addUserIdToReq.d.ts'
+import { NextApiRequestWithUser } from '../../../middleware/nextApiRequestWithUser'
 import { NextApiResponse } from 'next'
 
 const handler = async (req: NextApiRequestWithUser, res: NextApiResponse) => {

@@ -1,10 +1,10 @@
 import { addUserIdToReq } from '../../../../middleware/addUserIdToReq'
-import { NextApiRequestWithUser } from '../../../../middleware/addUserIdToReq.d.ts'
+import { NextApiRequestWithUser } from '../../../../middleware/nextApiRequestWithUser'
 import { NextApiResponse } from 'next'
 import prisma from '../../../../prisma/prisma'
 import { belongsToTeamAs } from '../../../../utils/authorization/belongsToTeamAs'
 
-type ReturnedCredit = {
+interface ReturnedCredit {
   claimedAt: Date | null
   claimedById: string | null
   createdAt: Date
@@ -18,6 +18,8 @@ type ReturnedCredit = {
   phone: string | null
   reason: string | null
   teamId: string
+  writtenOnSharedBy: string
+  claimedOnSharedBy: string
   claimedBy: {
     name: string | null
   }
@@ -29,7 +31,7 @@ type ReturnedCredit = {
   }
 }
 
-type Error = {
+interface Error {
   error: string
 }
 
