@@ -21,13 +21,12 @@ const handler = async (req, res) => {
       const credit = await prisma.credit.update({
         where: { id: req.query.id },
         data: {
+          ...req.body,
           claimedBy: { connect: { id: req.userId } },
           claimedAt: new Date().toISOString(),
         },
         include: {
           claimedBy: { select: { name: true } },
-          createdBy: { select: { name: true } },
-          updatedBy: { select: { name: true } },
         },
       })
       return res.json(credit)

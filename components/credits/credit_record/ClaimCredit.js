@@ -33,7 +33,9 @@ const ClaimCredit = ({ credit }) => {
       setIsError('Claimer can not be blank.')
       return
     }
-    const claimedCredit = await claimCredit(teamid, credit.id)
+    const claimedCredit = await claimCredit(teamid, credit.id, {
+      claimedOnSharedBy: sharedClaimer,
+    })
     cache
       .keys()
       .filter((key) => key.startsWith(`arg@"/api/credits/${teamid}/search`))
@@ -47,6 +49,7 @@ const ClaimCredit = ({ credit }) => {
                     ...cachedCredit,
                     claimedAt: claimedCredit.claimedAt,
                     claimedBy: { name: claimedCredit.claimedBy?.name },
+                    claimedOnSharedBy: sharedClaimer,
                   }
                 : cachedCredit
             )
