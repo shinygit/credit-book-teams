@@ -2,6 +2,8 @@ import { mutate, cache } from 'swr'
 import { useRouter } from 'next/router'
 import { claimCredit } from '../../../api/mutations'
 
+import { useRole } from '../../../hooks/useRole'
+
 import {
   AlertDialog,
   AlertDialogBody,
@@ -13,16 +15,24 @@ import {
 } from '@chakra-ui/core'
 
 const ClaimCredit = ({ credit }) => {
+  const role = useRole()
+
   const [isOpen, setIsOpen] = React.useState()
-  const onClose = () => setIsOpen(false)
+  const [sharedClaimer, setSharedClaimer] = React.useState('')
+  const [isError, setIsError] = React.useState('')
   const cancelRef = React.useRef()
 
   const router = useRouter()
   const { teamid } = router.query
   const handleClick = () => {
+    role === 'SHARED' ? setIsError('Claimer can not be blank.') : null
     setIsOpen(true)
   }
   const handleClaim = async () => {
+    if (role === 'SHARED' && sharedClaimer === '') {
+      setIsError('Claimer can not be blank.')
+      return
+    }
     const claimedCredit = await claimCredit(teamid, credit.id)
     cache
       .keys()
@@ -44,6 +54,7 @@ const ClaimCredit = ({ credit }) => {
           false
         )
       })
+    setIsOpen(false)
   }
 
   if (credit.claimedAt)
@@ -86,7 +97,7 @@ const ClaimCredit = ({ credit }) => {
       <AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
-        onClose={onClose}
+        onClose={() => setIsOpen(false)}
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
@@ -94,18 +105,32 @@ const ClaimCredit = ({ credit }) => {
               Claim Credit
             </AlertDialogHeader>
             <AlertDialogBody>
-              Are you sure? You can't undo this action afterwards.
+              <div>Are you sure? You can't undo this action afterwards.</div>
+              {role === 'SHARED' ? (
+                <div>
+                  Who is claiming?{' '}
+                  <input
+                    className='border border-black'
+                    value={sharedClaimer}
+                    onChange={(e) => {
+                      setSharedClaimer(e.target.value)
+                      setIsError('')
+                    }}
+                  />
+                </div>
+              ) : null}
+              <div className='text-red-500'>{isError}</div>
             </AlertDialogBody>
 
             <AlertDialogFooter>
               <button
                 className='btn btn-white'
                 ref={cancelRef}
-                onClick={onClose}
+                onClick={() => setIsOpen(false)}
               >
                 Cancel
               </button>
-              <button className='ml-4 bg-gray-300 btn' onClick={onClose}>
+              <button className='ml-4 bg-gray-300 btn' onClick={handleClaim}>
                 Claim
               </button>
             </AlertDialogFooter>

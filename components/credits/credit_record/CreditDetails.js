@@ -35,7 +35,11 @@ const CreditDetails = ({ credit }) => {
         <span>
           {credit.claimedAt && dayjs(credit.claimedAt).format('MM/DD/YY')}
         </span>
-        <span>{credit.claimedBy?.name}</span>
+        <span>
+          {credit.claimedOnSharedBy
+            ? `Typed: ${credit.claimedOnSharedBy}`
+            : credit.claimedBy?.name}
+        </span>
       </div>
     </div>
   )
