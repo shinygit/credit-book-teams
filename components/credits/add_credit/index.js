@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { createCredit } from '../../../api/mutations'
-import { mutate } from 'swr'
+import { mutate, cache } from 'swr'
 import { useState } from 'react'
 import { Button } from '@chakra-ui/core'
 import Modal from 'react-modal'
@@ -8,7 +8,6 @@ import { useRole } from '../../../hooks/useRole'
 
 const AddCredit = ({ teamId }) => {
   const role = useRole()
-
   Modal.setAppElement('#__next')
   const { register, handleSubmit, setError, errors } = useForm()
   const onSubmit = async (data) => {
@@ -17,7 +16,14 @@ const AddCredit = ({ teamId }) => {
     if (newCredit.error)
       setError('shared', { type: 'manual', message: newCredit.error })
     if (newCredit.id) {
-      mutate(`/api/credits/${teamId}/unclaimed`)
+      cache
+        .keys()
+        .filter((key) => key.startsWith(`arg@"/api/credits/${teamId}/search`))
+        .forEach((key) => {
+          mutate(key, (cachedCredits) => {
+            return [...cachedCredits, newCredit]
+          })
+        }, false)
       closeModal()
     }
   }
