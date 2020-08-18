@@ -63,7 +63,6 @@ model User {
   claimedCredits Credit[]   @relation("ClaimedCredits")
   createdCredits Credit[]   @relation("CreatedCredits")
   updatedCredits Credit[]   @relation("UpdatedCredits")
-
   @@map(name: "users")
 }
 
@@ -108,6 +107,8 @@ model Credit {
   name        String?
   phone       String?
   reason      String?
+  writtenOnSharedBy String? @map(name: "written_on_shared_by")
+  claimedOnSharedBy String? @map(name: "claimed_on_shared_by")
   teamId      String    @map(name: "team_id")
   team        Team      @relation(fields: [teamId], references: [id])
 

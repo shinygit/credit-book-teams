@@ -63,7 +63,6 @@ model User {
   claimedCredits Credit[]   @relation("ClaimedCredits")
   createdCredits Credit[]   @relation("CreatedCredits")
   updatedCredits Credit[]   @relation("UpdatedCredits")
-
   @@map(name: "users")
 }
 
