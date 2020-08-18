@@ -4,14 +4,22 @@ import { mutate } from 'swr'
 import { useState } from 'react'
 import { Button } from '@chakra-ui/core'
 import Modal from 'react-modal'
+import { useRole } from '../../../hooks/useRole'
+
 const AddCredit = ({ teamId }) => {
+  const role = useRole()
+
   Modal.setAppElement('#__next')
-  const { register, handleSubmit, errors } = useForm()
+  const { register, handleSubmit, setError, errors } = useForm()
   const onSubmit = async (data) => {
     data.dollarValue = parseInt(data.dollarValue)
     const newCredit = await createCredit(teamId, data)
-    if (newCredit.error) setError({ type: 'manual', message: newTeam.error })
-    if (newCredit.id) mutate(`/api/credits/${teamId}/unclaimed`)
+    if (newCredit.error)
+      setError('shared', { type: 'manual', message: newCredit.error })
+    if (newCredit.id) {
+      mutate(`/api/credits/${teamId}/unclaimed`)
+      closeModal()
+    }
   }
   const [modalIsOpen, setIsOpen] = useState(false)
   function openModal() {
@@ -20,7 +28,6 @@ const AddCredit = ({ teamId }) => {
   function closeModal() {
     setIsOpen(false)
   }
-
   return (
     <div>
       <Button
@@ -78,6 +85,17 @@ const AddCredit = ({ teamId }) => {
               ref={register}
             />
           </label>
+          {role === 'SHARED' ? (
+            <label>
+              Written By:
+              <input
+                type='text'
+                placeholder='Written By?'
+                name='writtenOnSharedBy'
+                ref={register}
+              />
+            </label>
+          ) : null}
           <input type='submit' />
           <button onClick={closeModal}>Close</button>
         </form>
