@@ -9,7 +9,6 @@ import theme from '@chakra-ui/theme'
 
 import useSWR from 'swr'
 import { getSession, signIn } from 'next-auth/client'
-
 import { Flex } from '@chakra-ui/core'
 
 function MyApp({ Component, pageProps }) {
@@ -26,16 +25,12 @@ function MyApp({ Component, pageProps }) {
             <title>Credit Book</title>
             <link rel='icon' href='/favicon.ico' />
           </Head>
-          <Flex
-            className='text-lg'
-            bg='gray.50'
-            h='100vh'
-            flexDirection='column'
-            px={2}
-          >
-            <NavBar />
-            <Component {...pageProps} />
-          </Flex>
+          <div className='h-screen p-2 bg-gray-100'>
+            <div className='max-w-4xl mx-auto'>
+              <NavBar />
+              <Component {...pageProps} />
+            </div>
+          </div>
         </SWRConfig>
       </ChakraProvider>
     </Provider>
