@@ -1,8 +1,14 @@
 module.exports = {
   purge: ['./components/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        'outline-grey': '0 0 0 3px Gainsboro',
+      },
+    },
   },
-  variants: {},
+  variants: {
+    boxShadow: ['responsive', 'hover', 'focus', 'focus-within'],
+  },
   plugins: [],
 }
