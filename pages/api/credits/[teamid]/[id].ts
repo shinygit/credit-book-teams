@@ -18,8 +18,8 @@ interface ReturnedCredit {
   phone: string | null
   reason: string | null
   teamId: string
-  writtenOnSharedBy: string
-  claimedOnSharedBy: string
+  writtenOnSharedBy: string | null
+  claimedOnSharedBy: string | null
   claimedBy: {
     name: string | null
   }
@@ -37,7 +37,7 @@ interface Error {
 
 const handler = async (
   req: NextApiRequestWithUser,
-  res: NextApiResponse<ReturnedCredit | Error>
+  res: NextApiResponse //<ReturnedCredit | Error>
 ) => {
   try {
     await addUserIdToReq(req)
