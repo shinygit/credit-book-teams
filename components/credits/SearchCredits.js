@@ -1,7 +1,8 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import debounce from 'lodash/debounce'
 
 const SearchCredits = ({ searchCreditsQuery, setSearchCreditsQuery }) => {
+  const searchInput = useRef(null)
   const [searchCreditsInput, setSearchCreditsInput] = useState('')
 
   const debouncedSearch = useCallback(
@@ -15,16 +16,25 @@ const SearchCredits = ({ searchCreditsQuery, setSearchCreditsQuery }) => {
     setSearchCreditsInput(e.target.value)
     debouncedSearch(e.target.value)
   }
+  const handleClear = () => {
+    setSearchCreditsInput('')
+    debouncedSearch('')
+    searchInput.current.focus()
+  }
 
   return (
-    <div>
+    <div className='flex justify-between w-full p-1 bg-white border-2 border-black rounded focus-within:shadow-outline-grey'>
       <input
-        className='w-full p-1 border-2 border-black rounded'
+        className='flex-grow outline-none'
         aria-label='search'
+        ref={searchInput}
         value={searchCreditsInput}
         onChange={(e) => handleChange(e)}
         placeholder='Name or Phone Number or mm/dd/yy-mm/dd/yy'
       />
+      <button onClick={handleClear} className='btn btn-white'>
+        Clear
+      </button>
     </div>
   )
 }
