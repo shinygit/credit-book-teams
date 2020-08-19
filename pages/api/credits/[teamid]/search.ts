@@ -25,7 +25,9 @@ const handler = async (req, res) => {
             teamId: req.query.teamId,
             createdAt: {
               gte: new Date(match[0]),
-              lt: match[1] ? new Date(match[1]) : searchDateEnd,
+              lt: match[1]
+                ? dayjs(new Date(match[1])).add(1, 'day').toDate()
+                : searchDateEnd,
             },
             ...(!req.body.claimed && { claimedAt: { equals: null } }),
           },
