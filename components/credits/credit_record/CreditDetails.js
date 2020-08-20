@@ -2,7 +2,6 @@ import ClaimCredit from './ClaimCredit'
 import dayjs from 'dayjs'
 import { formatPhoneNumber } from '../../../utils/formatPhoneNumber'
 const CreditDetails = ({ credit }) => {
-  console.log(credit)
   return (
     <div className='flex justify-between p-2 mb-3 bg-white border-2 border-black rounded'>
       <div className='flex flex-col'>
