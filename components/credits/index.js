@@ -15,7 +15,7 @@ const Credits = ({ teamid }) => {
           setSize((size) => size + 1)
         }
       },
-      { threshold: 0.1, rootMargin: '100px' }
+      { rootMargin: '500px' }
     )
   )
   const [element, setElement] = useState(null)
