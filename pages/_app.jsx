@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }) {
             <title>Credit Book</title>
             <link rel='icon' href='/favicon.ico' />
           </Head>
-          <div className='h-screen p-2 bg-gray-100'>
+          <div className='min-h-screen p-2 bg-gray-100'>
             <div className='max-w-4xl mx-auto'>
               <NavBar />
               <Component {...pageProps} />
