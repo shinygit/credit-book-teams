@@ -3,7 +3,7 @@ module.exports = {
   theme: {
     extend: {
       boxShadow: {
-        'outline-grey': '0 0 0 3px Gainsboro',
+        'outline-grey': '0 0 0 3px LightGrey',
       },
     },
   },
