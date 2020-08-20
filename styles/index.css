@@ -2,9 +2,12 @@
 
 @tailwind base;
 
+body {
+  overflow-anchor: none;
+}
 @tailwind components;
 .btn {
-  @apply border rounded px-4 font-bold;
+  @apply px-4 font-bold border rounded;
 }
 .btn-white {
   @apply bg-white border-black;

@@ -71,6 +71,8 @@ const handler = async (req, res) => {
           orderBy: {
             createdAt: 'desc',
           },
+          skip: req.query.page * 10,
+          take: 10,
           where: {
             teamId: req.query.teamId,
             ...(!req.body.claimed && { claimedAt: { equals: null } }),
