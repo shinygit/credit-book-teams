@@ -16,14 +16,14 @@ const CreditDetails = ({ credit }) => {
         <div className='flex flex-col'>
           <span className='text-3xl'>{credit.name}</span>
           <span className='ml-auto -mt-2'>
-            {formatPhoneNumber(credit.phone)}
+            {formatPhoneNumber(credit.phone) || 'No number provided.'}
           </span>
         </div>
         <div className='flex flex-col'>
-          <span className='text-xl'>
-            {credit.dollarValue}
-            {credit.itemValue}
-          </span>
+          {credit.dollarValue && (
+            <span className='text-xl'>${credit.dollarValue}</span>
+          )}
+          <span className='text-xl'>{credit.itemValue}</span>
           <span>{credit.reason}</span>
         </div>
       </div>
