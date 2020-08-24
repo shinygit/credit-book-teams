@@ -9,7 +9,6 @@ import theme from '@chakra-ui/theme'
 
 import useSWR from 'swr'
 import { getSession, signIn } from 'next-auth/client'
-import { Flex } from '@chakra-ui/core'
 
 function MyApp({ Component, pageProps }) {
   return (
