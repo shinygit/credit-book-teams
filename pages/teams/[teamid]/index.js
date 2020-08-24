@@ -27,7 +27,7 @@ const TeamPage = () => {
         </Button>
         <AddCredit teamId={teamid} />
       </Flex>
-      <Credits teamid={teamid} />
+      <Credits teamId={teamid} />
     </Flex>
   )
 }
