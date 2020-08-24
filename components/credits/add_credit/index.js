@@ -61,9 +61,17 @@ const AddCredit = ({ teamId }) => {
               type='tel'
               placeholder='Phone Number'
               name='phone'
-              ref={register}
+              ref={register({
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: 'This is not the 1930s',
+                },
+              })}
             />
           </label>
+          {errors.phone?.type === 'pattern' && (
+            <p className='text-red-500'>{errors.phone.message}</p>
+          )}
           <label>
             Dollar Value:
             <input
