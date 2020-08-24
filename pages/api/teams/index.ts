@@ -67,7 +67,6 @@ const handler = async (req: NextApiRequestWithUser, res: NextApiResponse) => {
         }
         return { ...team, isDefaultTeam: false }
       })
-
       return res.json(teamsWithDefault)
     }
   } catch (e) {

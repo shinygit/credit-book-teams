@@ -1,11 +1,18 @@
-import { addUserIdToReq } from '../../../../middleware/addUserIdToReq'
+import {
+  addUserIdToReq,
+  NextApiRequestWithUser,
+} from '../../../../middleware/addUserIdToReq'
 import { belongsToTeamAs } from '../../../../utils/authorization/belongsToTeamAs'
+import { NextApiResponse } from 'next'
 import prisma from '../../../../prisma/prisma'
 import Fuse from 'fuse.js'
 import dayjs from 'dayjs'
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequestWithUser, res: NextApiResponse) => {
   try {
     await addUserIdToReq(req)
+    if (Array.isArray(req.query.teamid))
+      return res.status(400).json({ error: 'Query is wrong' })
+    const teamId = req.query.teamid
     if (!req.userId) return res.status(401).json({ error: 'Not logged in' })
     const role = await belongsToTeamAs(req.userId, req.query.teamid)
     if (!role)
@@ -22,7 +29,7 @@ const handler = async (req, res) => {
             createdAt: 'desc',
           },
           where: {
-            teamId: req.query.teamId,
+            teamId: teamId,
             createdAt: {
               gte: new Date(match[0]),
               lt: match[1]
@@ -45,7 +52,7 @@ const handler = async (req, res) => {
             createdAt: 'desc',
           },
           where: {
-            teamId: req.query.teamId,
+            teamId: teamId,
             ...(!req.body.claimed && { claimedAt: { equals: null } }),
           },
           include: {
@@ -63,7 +70,7 @@ const handler = async (req, res) => {
         const responseResults = results.reduce((acc, credit) => {
           if (credit.item) acc.push(credit.item)
           return acc
-        }, [])
+        }, [] as {}[])
         return res.json(responseResults)
       }
       if (req.body) {
@@ -71,10 +78,10 @@ const handler = async (req, res) => {
           orderBy: {
             createdAt: 'desc',
           },
-          skip: req.query.page * 10,
+          skip: +req.query.page * 10,
           take: 10,
           where: {
-            teamId: req.query.teamId,
+            teamId: teamId,
             ...(!req.body.claimed && { claimedAt: { equals: null } }),
           },
           include: {
