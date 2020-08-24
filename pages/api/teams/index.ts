@@ -61,6 +61,7 @@ const handler = async (req: NextApiRequestWithUser, res: NextApiResponse) => {
       const user = await prisma.user.findOne({
         where: { id: req.userId },
       })
+      if (!user) return res.status(401).json({ error: 'Not logged in' })
       const teamsWithDefault = teams.map((team) => {
         if (team.id === user.defaultTeamId) {
           return { ...team, isDefaultTeam: true }
