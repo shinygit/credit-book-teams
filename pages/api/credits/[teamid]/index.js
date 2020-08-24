@@ -14,14 +14,21 @@ const handler = async (req, res) => {
       if (req.body.writtenOnSharedBy && belongsToTeam.role !== 'SHARED') {
         return res.json({ error: 'This is not a shared account.' })
       }
-      const credit = await prisma.credit.create({
-        data: {
-          ...req.body,
-          team: { connect: { id: req.query.teamid } },
-          createdBy: { connect: { id: req.userId } },
-        },
-      })
-      return res.json(credit)
+      if (req.body) {
+        if (!req.body.phone.match(/^[0-9]*$/)) {
+          return res
+            .status(422)
+            .json({ error: 'Phone number must only be numbers.' })
+        }
+        const credit = await prisma.credit.create({
+          data: {
+            ...req.body,
+            team: { connect: { id: req.query.teamid } },
+            createdBy: { connect: { id: req.userId } },
+          },
+        })
+        return res.json(credit)
+      }
     }
   } catch (e) {
     console.log(e)
